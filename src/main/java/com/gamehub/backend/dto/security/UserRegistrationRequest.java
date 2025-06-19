@@ -1,6 +1,7 @@
 package com.gamehub.backend.dto.security;
 
-import com.gamehub.backend.model.enums.Role;
+
+import com.gamehub.backend.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

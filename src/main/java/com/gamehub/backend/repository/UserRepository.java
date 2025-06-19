@@ -1,6 +1,5 @@
 package com.gamehub.backend.repository;
-
-import com.gamehub.backend.model.entities.User;
+import com.gamehub.backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

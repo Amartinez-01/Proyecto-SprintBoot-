@@ -1,41 +1,78 @@
 package com.gamehub.backend.model;
 
+
 import com.gamehub.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.UUID;
+import java.util.Collection;
+import java.util.List;
 
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
-@Table(name="users")
-public class User {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "users")
+public class User implements UserDetails {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "email")
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(unique =  true, nullable= false)
+    private String username;
+
+    @Column(unique =  true, nullable= false)
     private String password;
 
-    @Column(name = "role")
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "rank")
     private String rank;
 
-    @Column(name = "points")
+
     private int points;
 
-}
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_"+ role.name()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+}
