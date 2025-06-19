@@ -1,0 +1,39 @@
+# Archivos y carpetas de compilación
+/target/
+!/src/main/resources/static/
+
+# Archivos de logs
+*.log
+*.out
+
+# Configuración específica del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Archivos de sistema
+*.class
+
+# Archivos de entorno o secretos
+.env
+*.env
+application-local.properties
+application-secret.properties
+
+# Base de datos H2 (si la usás en memoria con persistencia local)
+*.h2.db
+*.mv.db
+
+# Otros
+.mvn/
+.settings/
+.project
+.classpath
+
+# Archivos creados por test
+test-output/
