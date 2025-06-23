@@ -12,6 +12,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class JwtServiceImpl implements JwtService {
@@ -28,7 +29,7 @@ public class JwtServiceImpl implements JwtService {
 
 
     @Override
-    public TokenResponse generateToken(Long userId, String role) {
+    public TokenResponse generateToken(UUID userId, String role) {
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + EXPIRATION_TIME);
 
@@ -76,14 +77,14 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public Long extractUserId(String token) {
+    public UUID extractUserId(String token) {
         try {
             Claims claims = getClaims(token);
             Object userIdClaim = claims.get("userId");
             if (userIdClaim == null) {
                 throw new IllegalArgumentException("No userId claim found for token");
             }
-            return ((Number) userIdClaim).longValue();
+            return UUID.fromString(userIdClaim.toString());
         } catch (Exception e) {
             System.err.println("Error extrayendo token: " + e.getMessage());
             return null;

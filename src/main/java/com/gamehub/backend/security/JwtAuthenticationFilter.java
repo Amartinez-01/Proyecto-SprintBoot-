@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -44,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
 
-        Long userId = null;
+        UUID userId = null;
         String roleName = null;
 
         if(!StringUtils.hasText(authHeader) || !authHeader.startsWith("Bearer ")) {
@@ -73,7 +74,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if(userId != null && StringUtils.hasText(roleName) && SecurityContextHolder.getContext().getAuthentication() == null){
-            Optional<User> userOptional = userRepository.findById(userId.longValue());
+            Optional<User> userOptional = userRepository.findById(userId);
 
             if (userOptional.isEmpty() || !userOptional.get().isEnabled()){
                 log.warn("User ID {} from token not found in DB or is not active/enabled.", userId);
