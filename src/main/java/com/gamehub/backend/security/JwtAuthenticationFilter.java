@@ -84,7 +84,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             User user = userOptional.get();
-            String principal = user.getEmail();
+            String principal = user.getId().toString();
 
             List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + roleName));
             log.debug("Creating Authentication object with principal: {} and authorities: {}", principal, authorities);
