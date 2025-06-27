@@ -41,6 +41,8 @@ public class User implements UserDetails {
     private String rank;
 
 
+    private int wins;
+    private int losses;
     private int points;
 
 
