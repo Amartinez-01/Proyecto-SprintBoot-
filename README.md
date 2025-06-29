@@ -91,3 +91,44 @@ gamehub:
     jwt-secret: ${JWT_SECRET}
     expiration-ms: 86400000 # 24h
 ```
+---
+
+### 👤 Usuarios de prueba generados automáticamente
+
+> Al iniciar la aplicación, se crean 2 usuarios por defecto si no existen en la base de datos:
+
+| Rol    | Email              | Contraseña | Detalles adicionales |
+|--------|--------------------|------------|-----------------------|
+| ADMIN  | admin@mail.com     | 1234       | Rol administrador, 10 victorias |
+| PLAYER | player1@mail.com   | 1234       | Usuario jugador, 3 victorias    |
+
+🛠️ Estos usuarios son generados automáticamente desde código Java mediante un `CommandLineRunner`, lo que garantiza:
+- Que las contraseñas se encripten correctamente usando `BCrypt`
+- Que no haya errores de login por hash incorrecto
+- Que la lógica de inicialización sea compatible con todos los entornos (Flyway, Docker, testeo local)
+
+⚠️ Si querés resetearlos:
+1. Borrá las filas de la tabla `users`
+2. Reiniciá la app → los vuelve a crear automáticamente
+
+---
+
+## 👤 Endpoints de Usuario
+
+### 🔐 `GET /api/users/me`
+
+Devuelve los datos del usuario autenticado (requiere JWT).
+
+- Requiere header: `Authorization: Bearer <token>`
+- Respuesta:
+
+```json
+{
+  "id": "...",
+  "username": "admin",
+  "email": "admin@mail.com",
+  "role": "ADMIN",
+  "wins": 10,
+  "losses": 2,
+  "points": 1500
+}

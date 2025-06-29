@@ -75,16 +75,16 @@ public class AuthServiceImpl implements AuthService {
     private User mapToEntity(UserRegistrationRequest userRegistrationRequest){
         Role requestedRole = userRegistrationRequest.getRole();
         if(requestedRole == null){
-            log.error("El rol llegó nulo a mapToEntity a pesar de @NotNull para el usuario {}", userRegistrationRequest.getEmail());
-            requestedRole = Role.ADMIN;
+            log.warn("El rol llegó nulo. Se asigna PLAYER por defecto para el usuario {}", userRegistrationRequest.getEmail());
+            requestedRole = Role.PLAYER;
         }
         log.debug("Mapeando DTO a Entidad con Rol: {}", requestedRole);
         return User.builder()
                 .email(userRegistrationRequest.getEmail())
                 .password(passwordEncoder.encode(userRegistrationRequest.getPassword()))
-                .role(requestedRole) // Pasamos el objeto Role obtenido del DTO (o el defecto)
+                .role(requestedRole)
                 .username(userRegistrationRequest.getUsername())
                 .build();
-
     }
+
 }
